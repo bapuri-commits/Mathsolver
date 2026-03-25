@@ -1,42 +1,21 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-.venv/
-venv/
-env/
-*.egg-info/
-dist/
+# Build
 build/
+out/
 
-# Node
-node_modules/
-.next/
-dist/
-
-# Env
-.env
-.env.local
-.env.*.local
-
-# DB
-*.db
-*.sqlite
-
-# IDE
-.idea/
-*.swp
-
-# Visual Studio / CMake
-build/
+# Visual Studio
 .vs/
 *.sln
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+# CMake
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
+
+# Env
+.env
 
 # OS
 .DS_Store
