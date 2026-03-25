@@ -32,11 +32,12 @@ InputAdapter          ← 입력 소스 정규화 (Phase 1: 키보드 / Phase 5:
       ↓
 InteractiveSession    ← FTXUI 기반 대화형 UI + SessionContext 보유
       ↓
-ProblemParser         ← 문제 유형 태깅, 단순/복합 판별 (LLM·계산 없음)
+ProblemParser         ← 문제 유형 태깅, 단순/복합 판별, 질문/계산 분기 (LLM·계산 없음)
       ↓
 SolveRouter           ← 경로 결정 및 LLM 호출 위임
-  ├── 단순 → C++ 엔진 직접 처리
-  └── 복합 → LLM 2-pass 파이프라인
+  ├── 단순 계산    → C++ 엔진 직접 처리
+  ├── 복합 문제   → LLM 2-pass 파이프라인
+  └── 풀이 후 질문 → LLM 대화 경로 (chat_history 누적)
       ↓
 Solver Interface (추상 클래스)
   ├── LinearAlgebraSolver
@@ -56,6 +57,7 @@ OutputFormatter (verbose / compact)
 - **SolutionStep 항상 생성**: 출력은 선택이지만 steps는 모든 연산에서 기록
 - **LLM에게 수치 계산 금지**: C++ 엔진이 계산, LLM은 설명·풀이 서술만 담당
 - **LLM 2-pass 원칙**: Pass 1(문제 분해·계산 목록 반환) → C++ 계산 → Pass 2(풀이 조립)
+- **풀이 후 대화**: 풀이 완료 후 별도 모드 전환 없이 질문 가능 — last_result + chat_history를 LLM에 전달
 
 ## 디렉토리 구조 (목표)
 
@@ -75,6 +77,6 @@ MathSolver/
 
 ## 참고 문서
 
-- 전체 설계 명세: `docs/MathSolver_ProjectSpec_v2.md`
+- 전체 설계 명세: `docs/MathSolver_ProjectSpec_v2 (1).md`
 - 개발 로드맵: `docs/roadmap (1).html`
 - FTXUI UI 목업: `docs/ftxui_mockup.html`
