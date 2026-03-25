@@ -7,14 +7,74 @@ alwaysApply: true
 
 ## 프로젝트 개요
 
-- 수학 문제 풀이/학습 도구
-- 상세 기술 스택 및 설계는 `docs/` 참조
+- 이산수학 · 선형대수 특화 **C++ 공학계산기 + LLM 복합문제 풀이 엔진**
+- 도구 완성도 우선, Cursor AI와 함께 개발하며 C++ 학습 병행
+- 레퍼런스: TI-Nspire CX II CAS — 여기에 **풀이 과정 출력**을 더한 것이 핵심 차별점
+- calc 모드(빠른 수치 계산) + LLM 2-pass 경로(복합 문제) 구조
+- Phase 1~5 순차 개발 (현재: Phase 1 시작 전)
+
+## 기술 스택
+
+| 항목 | 선택 |
+|---|---|
+| 언어 | C++17 이상 |
+| 빌드 | CMake |
+| TUI | FTXUI (헤더온리, 크로스플랫폼) |
+| 테스트 | Google Test 또는 Catch2 |
+| JSON | nlohmann/json (헤더온리) |
+| HTTP | cpp-httplib |
+| LLM | Claude API 또는 OpenAI API (Phase 5, Vision OCR 포함) |
+
+## 아키텍처 레이어
+
+```
+InputAdapter          ← 입력 소스 정규화 (Phase 1: 키보드 / Phase 5: 파일·이미지)
+      ↓
+InteractiveSession    ← FTXUI 기반 대화형 UI + SessionContext 보유
+      ↓
+ProblemParser         ← 문제 유형 태깅, 단순/복합 판별 (LLM·계산 없음)
+      ↓
+SolveRouter           ← 경로 결정 및 LLM 호출 위임
+  ├── 단순 → C++ 엔진 직접 처리
+  └── 복합 → LLM 2-pass 파이프라인
+      ↓
+Solver Interface (추상 클래스)
+  ├── LinearAlgebraSolver
+  └── DiscreteMathSolver
+      ↓
+CoreMath (알고리즘 구현)
+      ↓
+SolverResult (answer + steps 벡터)
+      ↓
+OutputFormatter (verbose / compact)
+```
 
 ## 필수 원칙
 
 - **한국어 응답**: 모든 대화와 커밋 메시지는 한국어
-- **타입 힌팅 필수**: 모든 함수의 파라미터와 반환값에 타입 명시
+- **레이어 경계 준수**: InputAdapter → Session → Parser → Router → Solver → CoreMath 방향으로만 의존
+- **SolutionStep 항상 생성**: 출력은 선택이지만 steps는 모든 연산에서 기록
+- **LLM에게 수치 계산 금지**: C++ 엔진이 계산, LLM은 설명·풀이 서술만 담당
+- **LLM 2-pass 원칙**: Pass 1(문제 분해·계산 목록 반환) → C++ 계산 → Pass 2(풀이 조립)
+
+## 디렉토리 구조 (목표)
+
+```
+MathSolver/
+├── CMakeLists.txt
+├── src/
+│   ├── main.cpp
+│   ├── input/    ← InputAdapter (Keyboard / File / Image)
+│   ├── core/     ← CoreMath (Matrix, LinearAlgebra, BaseConvert, Logic)
+│   ├── solver/   ← Solver 계층 + ProblemParser + SolveRouter
+│   ├── session/  ← SessionContext (세션 변수·히스토리)
+│   ├── ui/       ← FTXUI (InteractiveSession, OutputFormatter, MatrixWidget)
+│   └── llm/      ← LLM 연동 (Phase 5)
+└── tests/
+```
 
 ## 참고 문서
 
-- 설계 문서: `docs/` 디렉토리
+- 전체 설계 명세: `docs/MathSolver_ProjectSpec_v2.md`
+- 개발 로드맵: `docs/roadmap (1).html`
+- FTXUI UI 목업: `docs/ftxui_mockup.html`

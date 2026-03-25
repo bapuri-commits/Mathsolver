@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f8f8f6; font-family: 'Segoe UI', sans-serif; padding: 24px; color: #2c2c2a; }
+h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; color: #2c2c2a; }
+.subtitle { font-size: 13px; color: #888; margin-bottom: 24px; }
+.phase { margin-bottom: 20px; border: 0.5px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; }
+.phase-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 0.5px solid #eee; }
+.phase-num { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+.p1 .phase-num { background: #e1f5ee; color: #0f6e56; }
+.p2 .phase-num { background: #eeedfe; color: #534ab7; }
+.p3 .phase-num { background: #faeeda; color: #854f0b; }
+.p4 .phase-num { background: #e6f1fb; color: #185fa5; }
+.p5 .phase-num { background: #fcebeb; color: #a32d2d; }
+.phase-title { font-size: 15px; font-weight: 500; }
+.phase-tag { font-size: 11px; color: #aaa; margin-left: auto; }
+.phase-body { padding: 12px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.phase-body.single { grid-template-columns: 1fr; }
+.block { border: 0.5px solid #eee; border-radius: 8px; padding: 10px 12px; background: #fafafa; }
+.block-title { font-size: 12px; font-weight: 500; color: #555; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.teal { background: #1d9e75; }
+.purple { background: #534ab7; }
+.amber { background: #ba7517; }
+.blue { background: #185fa5; }
+.red { background: #a32d2d; }
+.gray { background: #888; }
+.task { font-size: 12px; color: #555; padding: 2px 0 2px 13px; line-height: 1.6; }
+.task::before { content: "·"; margin-left: -10px; margin-right: 4px; color: #bbb; }
+.cpp-tag { font-size: 10px; background: #f1efe8; color: #5f5e5a; padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
+.milestone { margin-top: 8px; padding: 6px 10px; border-radius: 6px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+.p1 .milestone { background: #e1f5ee; color: #0f6e56; }
+.p2 .milestone { background: #eeedfe; color: #534ab7; }
+.p3 .milestone { background: #faeeda; color: #854f0b; }
+.p4 .milestone { background: #e6f1fb; color: #185fa5; }
+.p5 .milestone { background: #fcebeb; color: #a32d2d; }
+.milestone-icon { font-size: 13px; }
+.arrow { text-align: center; color: #ccc; font-size: 18px; margin: 4px 0; }
+.legend { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #666; }
+</style>
+</head>
+<body>
+
+<h1>MathSolver 개발 로드맵</h1>
+<p class="subtitle">이산수학 · 선형대수 특화 C++ 공학계산기 + LLM 풀이 엔진</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot teal"></div> 기반 구조</div>
+  <div class="legend-item"><div class="dot purple"></div> 핵심 알고리즘</div>
+  <div class="legend-item"><div class="dot amber"></div> UX / 인터페이스</div>
+  <div class="legend-item"><div class="dot blue"></div> 풀이 엔진</div>
+  <div class="legend-item"><div class="dot red"></div> LLM 연동</div>
+</div>
+
+<!-- Phase 1 -->
+<div class="phase p1">
+  <div class="phase-header">
+    <span class="phase-num">Phase 1</span>
+    <span class="phase-title">프로젝트 골격 + 행렬 기초</span>
+    <span class="phase-tag">C++ 기초 · 클래스 설계</span>
+  </div>
+  <div class="phase-body">
+    <div class="block">
+      <div class="block-title"><div class="dot teal"></div> 프로젝트 구조 셋업</div>
+      <div class="task">디렉토리 구조 확정 (core / input / solver / session / ui / llm)</div>
+      <div class="task">CMake 빌드 시스템 구성</div>
+      <div class="task">Matrix 클래스 설계 <span class="cpp-tag">템플릿</span></div>
+      <div class="task">기본 예외 클래스 정의</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot purple"></div> CoreMath — 행렬 기초</div>
+      <div class="task">사칙연산 (덧셈 · 뺄셈 · 곱셈)</div>
+      <div class="task">전치행렬</div>
+      <div class="task">행렬식 (det) — 재귀 · cofactor</div>
+      <div class="task">역행렬 — 가우스-조르단</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot teal"></div> InputAdapter 인터페이스</div>
+      <div class="task">InputAdapter 추상 인터페이스 정의</div>
+      <div class="task">KeyboardInput 구현체</div>
+      <div class="task">ProblemText 구조체 확정</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot amber"></div> 기본 출력 + 테스트</div>
+      <div class="task">행렬 박스 렌더링 ⎡⎢⎣</div>
+      <div class="task">ANSI 색상 유틸리티</div>
+      <div class="task">Google Test 또는 Catch2 도입</div>
+      <div class="task">수치 오차 허용 범위 설정</div>
+    </div>
+  </div>
+  <div style="padding: 0 16px 12px;">
+    <div class="milestone"><span class="milestone-icon">✓</span> calc matrix 기본 연산 동작 확인 가능</div>
+  </div>
+</div>
+
+<div class="arrow">↓</div>
+
+<!-- Phase 2 -->
+<div class="phase p2">
+  <div class="phase-header">
+    <span class="phase-num">Phase 2</span>
+    <span class="phase-title">행렬 심화 + SolutionStep 도입</span>
+    <span class="phase-tag">상속 · 다형성 · STL</span>
+  </div>
+  <div class="phase-body">
+    <div class="block">
+      <div class="block-title"><div class="dot purple"></div> CoreMath — 행렬 심화</div>
+      <div class="task">가우스 소거 + RREF</div>
+      <div class="task">LU 분해</div>
+      <div class="task">rank / nullity 계산</div>
+      <div class="task">연립방정식 풀기 Ax=b</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot blue"></div> SolutionStep 레이어</div>
+      <div class="task">SolutionStep 구조체 확정</div>
+      <div class="task">SolverResult 구조체 확정</div>
+      <div class="task">각 알고리즘에 step 기록 추가</div>
+      <div class="task">steps 출력 포매터 구현</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot purple"></div> CoreMath — 나머지 카테고리</div>
+      <div class="task">진법 변환 (2~36진법, 0b/0h prefix)</div>
+      <div class="task">모듈러 산술 · GCD · LCM</div>
+      <div class="task">진리표 생성</div>
+      <div class="task">CNF / DNF 변환 · 동치 검사</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot blue"></div> Solver + 라우팅 초안</div>
+      <div class="task">Solver 추상 클래스 정의 <span class="cpp-tag">가상함수</span></div>
+      <div class="task">LinearAlgebraSolver 구현</div>
+      <div class="task">DiscreteMathSolver 구현</div>
+      <div class="task">ProblemParser 초안 (유형 태깅 · 판별)</div>
+      <div class="task">SolveRouter 초안 (C++ 직접 경로만)</div>
+    </div>
+  </div>
+  <div style="padding: 0 16px 12px;">
+    <div class="milestone"><span class="milestone-icon">✓</span> steps ON/OFF 풀이 과정 출력 동작 확인 가능</div>
+  </div>
+</div>
+
+<div class="arrow">↓</div>
+
+<!-- Phase 3 -->
+<div class="phase p3">
+  <div class="phase-header">
+    <span class="phase-num">Phase 3</span>
+    <span class="phase-title">FTXUI 인터페이스 + SessionContext 연동</span>
+    <span class="phase-tag">외부 라이브러리 · 이벤트 루프</span>
+  </div>
+  <div class="phase-body">
+    <div class="block">
+      <div class="block-title"><div class="dot amber"></div> FTXUI 셋업</div>
+      <div class="task">CMake에 FTXUI 의존성 추가</div>
+      <div class="task">기본 레이아웃 구성 (메뉴 + 메인 패널)</div>
+      <div class="task">키보드 네비게이션 구현</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot amber"></div> calc 모드 UI</div>
+      <div class="task">행렬 대화형 입력 위젯</div>
+      <div class="task">연산 선택 메뉴</div>
+      <div class="task">결과 + steps 패널 렌더링</div>
+      <div class="task">s 키 steps 토글 · r 재입력 · q 종료</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot teal"></div> SessionContext</div>
+      <div class="task">세션 변수 저장 (ans, result_1 ...)</div>
+      <div class="task">이전 결과 입력으로 재사용</div>
+      <div class="task">계산 히스토리 관리</div>
+      <div class="task">help 명령어 처리 흐름</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot amber"></div> OutputFormatter 완성</div>
+      <div class="task">verbose / compact 모드</div>
+      <div class="task">행렬 정렬 · 패딩 자동화</div>
+      <div class="task">에러 메시지 원인 설명 포함</div>
+      <div class="task">진법 · 논리 입력 흐름 연동</div>
+    </div>
+  </div>
+  <div style="padding: 0 16px 12px;">
+    <div class="milestone"><span class="milestone-icon">✓</span> calc 모드 완성 — 세션 변수 재사용 · 공학계산기로서 단독 사용 가능</div>
+  </div>
+</div>
+
+<div class="arrow">↓</div>
+
+<!-- Phase 4 -->
+<div class="phase p4">
+  <div class="phase-header">
+    <span class="phase-num">Phase 4</span>
+    <span class="phase-title">고급 알고리즘 + ProblemParser 완성</span>
+    <span class="phase-tag">알고리즘 심화 · 풀이 엔진</span>
+  </div>
+  <div class="phase-body">
+    <div class="block">
+      <div class="block-title"><div class="dot purple"></div> 고급 행렬 알고리즘</div>
+      <div class="task">고유값 · 고유벡터 (QR 알고리즘)</div>
+      <div class="task">대각화 판별 · 수행</div>
+      <div class="task">Gram-Schmidt 직교화</div>
+      <div class="task">직교 행렬 · 정규 직교 기저</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot blue"></div> 라우팅 엔진 완성</div>
+      <div class="task">ProblemParser 완성 (복합 문제 판별 고도화)</div>
+      <div class="task">SolveRouter 완성 (복합 경로 체이닝)</div>
+      <div class="task">단계별 Solver 체이닝</div>
+      <div class="task">풀이 흐름 내러티브 생성</div>
+    </div>
+  </div>
+  <div style="padding: 0 16px 12px;">
+    <div class="milestone"><span class="milestone-icon">✓</span> LLM 없이 단순~중간 복잡도 문제 자력 풀이 가능</div>
+  </div>
+</div>
+
+<div class="arrow">↓</div>
+
+<!-- Phase 5 -->
+<div class="phase p5">
+  <div class="phase-header">
+    <span class="phase-num">Phase 5</span>
+    <span class="phase-title">LLM 연동 + 입력 확장 + 마무리</span>
+    <span class="phase-tag">네트워크 · JSON · Vision OCR</span>
+  </div>
+  <div class="phase-body">
+    <div class="block">
+      <div class="block-title"><div class="dot red"></div> LLMConnector</div>
+      <div class="task">cpp-httplib 연동 + nlohmann/json 파싱</div>
+      <div class="task">PromptBuilder — Pass 1 (문제 분해)</div>
+      <div class="task">PromptBuilder — Pass 2 (풀이 조립)</div>
+      <div class="task">PromptBuilder — help 명령어</div>
+      <div class="task">응답 파싱 + SolutionStep 변환</div>
+      <div class="task">응답 검증 · 폴백 처리</div>
+    </div>
+    <div class="block">
+      <div class="block-title"><div class="dot red"></div> 입력 확장 + 마무리</div>
+      <div class="task">InputAdapter — FileInput 구현체 (텍스트 파일)</div>
+      <div class="task">InputAdapter — ImageInput 구현체 (Vision OCR)</div>
+      <div class="task">비용 최소화 프롬프트 튜닝</div>
+      <div class="task">전체 통합 테스트</div>
+    </div>
+  </div>
+  <div style="padding: 0 16px 12px;">
+    <div class="milestone"><span class="milestone-icon">✓</span> 전체 시스템 완성 — 공학계산기 + LLM 2-pass 풀이 엔진 + 이미지 입력</div>
+  </div>
+</div>
+
+</body>
+</html>

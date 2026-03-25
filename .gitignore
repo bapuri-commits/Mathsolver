@@ -27,6 +27,17 @@ dist/
 .idea/
 *.swp
 
+# Visual Studio / CMake
+build/
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+
 # OS
 .DS_Store
 Thumbs.db
