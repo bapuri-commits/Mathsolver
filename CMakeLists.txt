@@ -11,4 +11,4 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(MathSolver src/main.cpp "src/Imatrix.h")
+add_executable(MathSolver src/main.cpp "src/matrix.h" )
