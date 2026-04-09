@@ -11,7 +11,7 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-add_executable(MathSolver src/main.cpp "src/Matrix.hpp")
+add_executable(MathSolver src/main.cpp "src/Matrix.hpp" "src/CommandParser.hpp" "src/StepPrinter.hpp")
 
 # Catch2 테스트 설정
 include(FetchContent)
