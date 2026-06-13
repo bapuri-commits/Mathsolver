@@ -13,8 +13,8 @@ static long long gcd(long long a, long long b) {
 }
 
 static long long lcm(long long a, long long b) {
-
-    return 
+    long long gcd = gcd(a, b);
+    return a / gcd * b;
 }
 
 class Fraction {
@@ -32,8 +32,16 @@ public:
         normalize();
     }
     Fraction operator+(const Fraction& other) const {
+        long long dengcd = gcd(den, other.den);
+        long long denominator = lcm(den, other.den);
+        long long numerator = num * other.den / dengcd + other.num * den/dengcd;
+        return Fraction(numerator, dengcd);
     }
     Fraction operator-(const Fraction& other) const {
+        long long dengcd = gcd(den, other.den);
+        long long denominator = lcm(den, other.den);
+        long long numerator = num * other.den / dengcd - other.num * den / dengcd;
+        return Fraction(numerator, dengcd);
     }
     Fraction operator*(const Fraction& other) const {
     }
