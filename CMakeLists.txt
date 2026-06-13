@@ -30,3 +30,10 @@ target_link_libraries(MathSolverTests PRIVATE Catch2::Catch2WithMain)
 include(CTest)
 include(Catch)
 catch_discover_tests(MathSolverTests)
+
+# Fraction 단위 테스트
+add_executable(test_fraction ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_fraction.cpp)
+target_include_directories(test_fraction PRIVATE src)
+target_link_libraries(test_fraction PRIVATE Catch2::Catch2WithMain)
+add_test(NAME test_fraction COMMAND test_fraction)
+catch_discover_tests(test_fraction)

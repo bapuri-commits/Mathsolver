@@ -1,5 +1,7 @@
-#include <iostrem>
+#pragma once
+#include <iostream>
 #include <stdexcept>
+#include <string>
 
 static long long gcd(long long a, long long b) {
     a = a < 0 ? -a : a;
@@ -13,8 +15,8 @@ static long long gcd(long long a, long long b) {
 }
 
 static long long lcm(long long a, long long b) {
-    long long gcd = gcd(a, b);
-    return a / gcd * b;
+    long long g = gcd(a, b);
+    return a / g * b;
 }
 
 class Fraction {
@@ -23,6 +25,12 @@ private:
     long long den;
     void normalize();          
 public:
+    long long getnum() { return num; }
+    long long getden() { return den; }
+    std::string toString() const {
+        if (den == 1) return std::to_string(num);
+        return std::to_string(num) + "/" + std::to_string(den);
+    }
     Fraction(long long num, long long den = 1) {
         if (den == 0) {
             throw std::invalid_argument("denominator cannot be zero");
@@ -34,24 +42,35 @@ public:
     Fraction operator+(const Fraction& other) const {
         long long dengcd = gcd(den, other.den);
         long long denominator = lcm(den, other.den);
-        long long numerator = num * other.den / dengcd + other.num * den/dengcd;
-        return Fraction(numerator, dengcd);
+        long long numerator = num * (other.den / dengcd) + other.num * (den/dengcd);
+        return Fraction(numerator, denominator);
     }
     Fraction operator-(const Fraction& other) const {
         long long dengcd = gcd(den, other.den);
         long long denominator = lcm(den, other.den);
-        long long numerator = num * other.den / dengcd - other.num * den / dengcd;
-        return Fraction(numerator, dengcd);
+        long long numerator = num * (other.den / dengcd) - other.num * (den / dengcd);
+        return Fraction(numerator, denominator);
     }
     Fraction operator*(const Fraction& other) const {
+        long long denominator = den*other.den;
+        long long numerator = num*other.num;
+        return Fraction(numerator,denominator);
     }
     Fraction operator/(const Fraction& other) const {
+        long long denominator = den * other.num;
+        long long numerator = num * other.den;
+        return Fraction(numerator, denominator);
     }
     bool operator==(const Fraction& other) const {
+        if (num == other.num && den == other.den)return true;
+        return false;
     }
     bool operator!=(const Fraction& other) const {
+        if (num == other.num && den == other.den)return false;
+        return true;
     }
     bool operator<(const Fraction& other) const {
+        return num * other.den < den * other.num;
     }
 };
 
